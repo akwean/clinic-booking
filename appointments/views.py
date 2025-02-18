@@ -32,7 +32,7 @@ def book_appointment(request):
         if profile:
             initial_data.update({
                 'course': profile.course,
-                'block': profile.block,
+                'block': profile.get_block_display(),
             })
         form = AppointmentForm(initial=initial_data)
     return render(request, 'appointments/book_appointment.html', {'form': form})
