@@ -1,78 +1,104 @@
-# Clinic Booking Appointment Project
+# BUPC Clinic Booking System
 
-This project is a Django-based web application designed for managing clinic appointment bookings. It provides a user-friendly interface for patients to book appointments and for clinic staff to manage those appointments.
+A web-based appointment scheduling system for Bicol University Polangui Campus clinic services.
 
-## Project Structure
+## Features
 
-```
-clinic-booking
-├── clinic_booking
-│   ├── __init__.py
-│   ├── settings.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── asgi.py
-├── landing
-│   ├── migrations
-│   │   └── __init__.py
-│   ├── static
-│   │   ├── css
-│   │   │   └── styles.css
-│   │   ├── js
-│   │   │   └── scripts.js
-│   │   └── images
-│   ├── templates
-│   │   └── landing
-│   │       └── index.html
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-├── manage.py
-└── README.md
-```
+- User authentication and registration
+- Appointment scheduling with date/time selection
+- Profile management for students
+- Appointment history tracking
+- Admin dashboard for managing appointments
+- Real-time status updates for appointments
+
+## Technology Stack
+
+- Django 5.1.5
+- Python 3
+- SQLite3
+- Bootstrap 5.3
+- HTML/CSS/JavaScript
 
 ## Installation
 
 1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd clinic-booking
-   ```
+```bash
+git clone https://github.com/yourusername/clinic-booking.git
+cd clinic-booking
+```
 
-2. Create a virtual environment:
-   ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   ```
+2. Create and activate a virtual environment:
+```bash
+python -m venv env
+source env/bin/activate  # On Windows, use: env\Scripts\activate
+```
 
-3. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-4. Apply migrations:
-   ```
-   python manage.py migrate
-   ```
+4. Run migrations:
+```bash
+python manage.py migrate
+```
 
-5. Run the development server:
-   ```
-   python manage.py runserver
-   ```
+5. Create a superuser:
+```bash
+python manage.py createsuperuser
+```
 
-## Features
+6. Run the development server:
+```bash
+python manage.py runserver
+```
 
-- User-friendly landing page for appointment booking.
-- Responsive design with CSS and JavaScript for enhanced user experience.
-- Admin interface for managing appointments and users.
+## Creating a Nurse Account
+
+1. Login as admin at `http://localhost:8000/admin`
+
+2. Navigate to "Users" in the admin panel
+
+3. Click "Add User" and fill in the details:
+```bash
+Username: nurse_name
+Password: secure_password
+```
+
+4. Save the user account
+
+5. Assign nurse permissions:
+   - Select the created user
+   - Under "Available permissions" find clinic-related permissions
+   - Add necessary permissions for appointment management
+   - Save changes
+
+6. The nurse can now login at `http://localhost:8000/login`
+
+## Usage
+
+1. Access the application at `http://localhost:8000/`
+2. Register as a new user or login with existing credentials
+3. Book appointments through the user interface
+4. Track appointment status in the history section
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.# clinic-booking
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Authors
+
+- Your Name - Initial work
+
+## Acknowledgments
+
+- Bicol University Polangui Campus
+- Django Community
