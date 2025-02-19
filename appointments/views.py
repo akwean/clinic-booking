@@ -1,7 +1,7 @@
 # clinic-booking/appointments/views.py
 
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required  # Make sure this is imported
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import AppointmentForm
 
@@ -14,7 +14,9 @@ def book_appointment(request):
 
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
+        print("POST data received:", request.POST)  # Debug
         if form.is_valid():
+            print("Form is valid")  # Debug
             appointment = form.save(commit=False)
             appointment.user = request.user
             appointment.first_name = request.user.first_name
@@ -23,7 +25,10 @@ def book_appointment(request):
                 appointment.course = profile.course
                 appointment.block = profile.block
             appointment.save()
+            print("Appointment saved:", appointment.id)  # Debug
             return redirect('appointment_success')
+        else:
+            print("Form errors:", form.errors)  # Debug
     else:
         initial_data = {
             'first_name': request.user.first_name,

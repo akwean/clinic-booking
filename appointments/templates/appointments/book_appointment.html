@@ -7,7 +7,6 @@
 {% include "landing/partials/navbar.html" %}
 {% endblock %}
 
-
 {% block content %}
 <div class="red-rectangle container">
     <div class="calendar-header text-center">
@@ -35,18 +34,35 @@
     <div class="collapse" id="dropdown-panel">
         <div class="collapse-panel">
             <h3 id="selected-date"></h3>
-            <form method="post">
+            <form id="appointment-form" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                <input type="hidden" name="selected_date" id="selected_date">
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="alert alert-danger">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="button" class="btn btn-primary" onclick="showConfirmationModal()">Submit</button>
             </form>
         </div>
     </div>
 </div>
 
-
-
-
-
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeConfirmationModal()">&times;</span>
+        <h2>Confirm Your Appointment</h2>
+        <div id="confirmationDetails"></div>
+        <button type="button" class="btn btn-success" onclick="confirmAppointment()">Confirm</button>
+    </div>
+</div>
 
 {% endblock %}
+
