@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required  # Make sure this is imported
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import AppointmentForm
+from .models import Appointment
 
 @login_required
 def book_appointment(request):
@@ -45,3 +46,10 @@ def book_appointment(request):
 @login_required
 def appointment_success(request):
     return render(request, 'appointments/appointment_success.html')
+
+@login_required
+def appointment_history(request):
+    appointments = Appointment.objects.filter(user=request.user).order_by('-date')
+    return render(request, 'appointments/appointment_history.html', {
+        'appointments': appointments
+    })

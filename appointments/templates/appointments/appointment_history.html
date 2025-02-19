@@ -1,0 +1,89 @@
+{% extends "appointments/layout.html" %}
+{% load static %}
+
+{% block content %}
+{% include "landing/partials/navbar.html" %}
+
+<!-- Add Bootstrap CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container mt-5">
+    <div class="container mt-5">
+        <h2>My Appointment History</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Purpose</th>
+                        <th>Status</th>
+                        <th>More Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.get_purpose_display }}</td>
+                        <td>
+                            <span class="badge {% if appointment.status == 'pending' %}bg-warning
+                                             {% elif appointment.status == 'approved' %}bg-success
+                                             {% elif appointment.status == 'completed' %}bg-info
+                                             {% else %}bg-danger{% endif %}">
+                                {{ appointment.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" 
+                                    data-bs-target="#appointmentModal{{ appointment.id }}">
+                                View Details
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No appointments found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Your existing modal code -->
+    </div>
+
+    <!-- Modal section -->
+    {% for appointment in appointments %}
+    <div class="modal fade" id="appointmentModal{{ appointment.id }}" tabindex="-1" 
+         aria-labelledby="modalLabel{{ appointment.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ appointment.id }}">Appointment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date:</strong> {{ appointment.date }}</p>
+                    <p><strong>Time:</strong> {{ appointment.time }}</p>
+                    <p><strong>Purpose:</strong> {{ appointment.purpose }}</p>
+                    <p><strong>First Name:</strong> {{ appointment.first_name }}</p>
+                    <p><strong>Last Name:</strong> {{ appointment.last_name }}</p>
+                    <p><strong>Course:</strong> {{ appointment.course }}</p>
+                    <p><strong>Block:</strong> {{ appointment.block }}</p>
+                    <p><strong>Year:</strong> {{ appointment.year }}</p>
+                    <p><strong>Additional Notes:</strong> {{ appointment.additional_notes|default:"None" }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

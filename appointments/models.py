@@ -4,6 +4,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Appointment(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
+    
+
     YEAR_CHOICES = [
         ('1st', 'First Year'),
         ('2nd', 'Second Year'),
@@ -47,6 +56,11 @@ class Appointment(models.Model):
     date = models.DateField()
     time = models.CharField(max_length=5, choices=TIME_CHOICES)
     additional_notes = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
 
     def __str__(self):
         return f"Appointment for {self.user.username} on {self.date} at {self.time}"

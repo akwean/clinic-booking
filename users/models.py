@@ -23,8 +23,8 @@ class Profile(models.Model):
 ]
 
     BLOCK_CHOICES = [
-        ('blockA', 'A'),
-        ('blockB', 'B'),
+        ('A', 'A'),
+        ('B', 'B'),
         # add other choices...
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
