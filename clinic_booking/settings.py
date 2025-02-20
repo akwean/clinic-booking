@@ -4,7 +4,7 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CSRF_TRUSTED_ORIGINS = [
-    'web-production-8859.up.railway.app',
+    'https://web-production-8859.up.railway.app',
 ]
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
