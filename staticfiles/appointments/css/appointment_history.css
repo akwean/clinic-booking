@@ -1,0 +1,55 @@
+.table {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.badge {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.modal-content {
+    border-radius: 12px;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-radius: 12px 12px 0 0;
+}
+
+.appointment-details p {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+.appointment-details p:last-child {
+    border-bottom: none;
+}
+.badge {
+    padding: 8px 12px;
+}
+.table th, .table td {
+    vertical-align: middle;
+}
+
+
+.modal-backdrop {
+    opacity: 0.5;
+}
+.modal-content {
+    border-radius: 8px;
+}
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+.modal-body p {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+.modal-body p:last-child {
+    border-bottom: none;
+}
+
