@@ -6,6 +6,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CSRF_TRUSTED_ORIGINS = [
     'web-production-8859.up.railway.app',
 ]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-secret-key')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
