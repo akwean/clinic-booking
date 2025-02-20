@@ -8,6 +8,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-secret-key')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
+LOGIN_URL = '/users/login/'  # Replace with your login URL
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
