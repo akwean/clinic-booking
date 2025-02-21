@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from django.utils import timezone
 
 class Appointment(models.Model):
     STATUS_CHOICES = [
@@ -61,6 +62,7 @@ class Appointment(models.Model):
         choices=STATUS_CHOICES,
         default='pending'
     )
+    created_at = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None

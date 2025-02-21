@@ -94,9 +94,14 @@
         const data = JSON.parse(e.data);
         const message = data['message'];
         const appointmentRow = document.getElementById('appointment-' + message.id);
+        const formattedDate = new Date(message.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
         if (appointmentRow) {
             appointmentRow.innerHTML = `
-                <td>${message.date}</td>
+                <td>${formattedDate}</td>
                 <td>${message.time}</td>
                 <td>${message.purpose}</td>
                 <td>
@@ -115,7 +120,7 @@
             const newRow = document.createElement('tr');
             newRow.id = 'appointment-' + message.id;
             newRow.innerHTML = `
-                <td>${message.date}</td>
+                <td>${formattedDate}</td>
                 <td>${message.time}</td>
                 <td>${message.purpose}</td>
                 <td>
@@ -130,7 +135,7 @@
                     </button>
                 </td>
             `;
-            document.getElementById('appointment-table-body').appendChild(newRow);
+            document.getElementById('appointment-table-body').insertBefore(newRow, document.getElementById('appointment-table-body').firstChild);
         }
     };
 
