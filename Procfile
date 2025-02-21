@@ -1,1 +1,1 @@
-web: daphne -p 8000 clinic_booking.asgi:application
+web: daphne clinic_booking.asgi:application --port $PORT --bind 0.0.0.0
