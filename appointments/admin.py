@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.contrib import messages
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from .models import Appointment
@@ -45,18 +46,18 @@ class AppointmentAdmin(admin.ModelAdmin):
     status_badge.short_description = 'Status'
 
     def approve_appointments(self, request, queryset):
-        self.update_status(queryset, 'approved')
+        self.update_status(request, queryset, 'approved')
     approve_appointments.short_description = "Mark selected appointments as approved"
 
     def reject_appointments(self, request, queryset):
-        self.update_status(queryset, 'rejected')
+        self.update_status(request, queryset, 'rejected')
     reject_appointments.short_description = "Mark selected appointments as rejected"
 
     def complete_appointments(self, request, queryset):
-        self.update_status(queryset, 'completed')
+        self.update_status(request, queryset, 'completed')
     complete_appointments.short_description = "Mark selected appointments as completed"
 
-    def update_status(self, queryset, status):
+    def update_status(self, request, queryset, status):
         channel_layer = get_channel_layer()
         for appointment in queryset:
             appointment.status = status
@@ -75,3 +76,4 @@ class AppointmentAdmin(admin.ModelAdmin):
                     "message": appointment.to_dict()
                 }
             )
+        self.message_user(request, f"Successfully marked {queryset.count()} appointments as {status}.", messages.SUCCESS)
