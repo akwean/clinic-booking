@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Comment out Railway-specific settings
 CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-8859.up.railway.app',
+    'https://clinic-booking-production.up.railway.app',
 ]
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
