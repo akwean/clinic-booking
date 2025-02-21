@@ -1,1 +1,1 @@
-web: gunicorn clinic_booking.wsgi
+web: daphne -p 8000 clinic_booking.asgi:application

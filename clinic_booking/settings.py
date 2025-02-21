@@ -11,9 +11,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # CSRF_COOKIE_SECURE = True
 # SESSION_COOKIE_SECURE = True
 
-SECRET_KEY = 'your-development-secret-key'
-DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+SECRET_KEY = '419)wp==g$&+twu1kml$d4awe&3g)*ocs_k2w4w$j+8_uc#)er'
+DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 LOGIN_URL = '/users/login/'  # Replace with your login URL
 
