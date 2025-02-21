@@ -3,15 +3,17 @@ from pathlib import Path
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-CSRF_TRUSTED_ORIGINS = [
-    'https://web-production-8859.up.railway.app',
-]
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'your-secret-key')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['*']
+# Comment out Railway-specific settings
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://web-production-8859.up.railway.app',
+# ]
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+
+SECRET_KEY = 'your-development-secret-key'
+DEBUG = True
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 LOGIN_URL = '/users/login/'  # Replace with your login URL
 
@@ -25,6 +27,7 @@ INSTALLED_APPS = [
     'landing',
     'users',
     'appointments',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -61,12 +64,22 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'clinic_booking.wsgi.application'
+ASGI_APPLICATION = 'clinic_booking.asgi.application'
 
+# Replace the DATABASE configuration with SQLite for local development
 DATABASES = {
-      'default': dj_database_url.config(
-          default=os.environ.get('DATABASE_URL')
-      )
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# Channel layers configuration
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

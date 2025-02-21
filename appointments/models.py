@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 class Appointment(models.Model):
     STATUS_CHOICES = [
@@ -11,8 +13,6 @@ class Appointment(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     
-    
-
     YEAR_CHOICES = [
         ('1st', 'First Year'),
         ('2nd', 'Second Year'),
@@ -61,6 +61,50 @@ class Appointment(models.Model):
         choices=STATUS_CHOICES,
         default='pending'
     )
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        old_status = None
+        if not is_new:
+            old_status = Appointment.objects.get(pk=self.pk).status
+
+        super().save(*args, **kwargs)
+
+        channel_layer = get_channel_layer()
+        if channel_layer is None:
+            print("Channel layer is None")
+        else:
+            async_to_sync(channel_layer.group_send)(
+                "appointments",
+                {
+                    "type": "appointment_message",
+                    "message": self.to_dict()
+                }
+            )
+
+            if not is_new and old_status != self.status:
+                async_to_sync(channel_layer.group_send)(
+                    f"appointment_{self.user.id}",
+                    {
+                        "type": "appointment_status_update",
+                        "message": self.to_dict()
+                    }
+                )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "date": self.date.strftime('%Y-%m-%d'),
+            "time": self.time,
+            "purpose": self.get_purpose_display(),
+            "status": self.get_status_display(),
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "course": self.course,
+            "block": self.block,
+            "year": self.year,
+            "additional_notes": self.additional_notes or "None"
+        }
 
     def __str__(self):
         return f"Appointment for {self.user.username} on {self.date} at {self.time}"

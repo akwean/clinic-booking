@@ -1,0 +1,22 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<script>
+    const appointmentSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/appointments/'
+    );
+
+    appointmentSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const message = data['message'];
+        // Reload the page to reflect the new appointment
+        location.reload();
+    };
+
+    appointmentSocket.onclose = function(e) {
+        console.error('Appointment socket closed unexpectedly');
+    };
+</script>
+{% endblock %}

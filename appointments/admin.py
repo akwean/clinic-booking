@@ -1,9 +1,13 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from .models import Appointment
 
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/appointments/appointment/change_list.html'  # Use custom template
+
     list_display = (
         'user', 
         'first_name', 
@@ -41,13 +45,33 @@ class AppointmentAdmin(admin.ModelAdmin):
     status_badge.short_description = 'Status'
 
     def approve_appointments(self, request, queryset):
-        queryset.update(status='approved')
+        self.update_status(queryset, 'approved')
     approve_appointments.short_description = "Mark selected appointments as approved"
 
     def reject_appointments(self, request, queryset):
-        queryset.update(status='rejected')
+        self.update_status(queryset, 'rejected')
     reject_appointments.short_description = "Mark selected appointments as rejected"
 
     def complete_appointments(self, request, queryset):
-        queryset.update(status='completed')
+        self.update_status(queryset, 'completed')
     complete_appointments.short_description = "Mark selected appointments as completed"
+
+    def update_status(self, queryset, status):
+        channel_layer = get_channel_layer()
+        for appointment in queryset:
+            appointment.status = status
+            appointment.save()
+            async_to_sync(channel_layer.group_send)(
+                "appointments",
+                {
+                    "type": "appointment_message",
+                    "message": appointment.to_dict()
+                }
+            )
+            async_to_sync(channel_layer.group_send)(
+                f"appointment_{appointment.user.id}",
+                {
+                    "type": "appointment_status_update",
+                    "message": appointment.to_dict()
+                }
+            )

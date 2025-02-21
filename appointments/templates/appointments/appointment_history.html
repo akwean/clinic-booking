@@ -22,9 +22,9 @@
                         <th>More Details</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="appointment-table-body">
                     {% for appointment in appointments %}
-                    <tr>
+                    <tr id="appointment-{{ appointment.id }}">
                         <td>{{ appointment.date }}</td>
                         <td>{{ appointment.time }}</td>
                         <td>{{ appointment.get_purpose_display }}</td>
@@ -85,5 +85,73 @@
     {% endfor %}
 </div>
 
+<script>
+    const appointmentSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/appointments/'
+    );
+
+    appointmentSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const message = data['message'];
+        const appointmentRow = document.getElementById('appointment-' + message.id);
+        if (appointmentRow) {
+            appointmentRow.innerHTML = `
+                <td>${message.date}</td>
+                <td>${message.time}</td>
+                <td>${message.purpose}</td>
+                <td>
+                    <span class="badge ${getStatusBadgeClass(message.status)}">
+                        ${message.status}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#appointmentModal${message.id}">
+                        View Details
+                    </button>
+                </td>
+            `;
+        } else {
+            const newRow = document.createElement('tr');
+            newRow.id = 'appointment-' + message.id;
+            newRow.innerHTML = `
+                <td>${message.date}</td>
+                <td>${message.time}</td>
+                <td>${message.purpose}</td>
+                <td>
+                    <span class="badge ${getStatusBadgeClass(message.status)}">
+                        ${message.status}
+                    </span>
+                </td>
+                <td>
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" 
+                            data-bs-target="#appointmentModal${message.id}">
+                        View Details
+                    </button>
+                </td>
+            `;
+            document.getElementById('appointment-table-body').appendChild(newRow);
+        }
+    };
+
+    appointmentSocket.onclose = function(e) {
+        console.error('Appointment socket closed unexpectedly');
+    };
+
+    function getStatusBadgeClass(status) {
+        switch (status) {
+            case 'Pending':
+                return 'bg-warning';
+            case 'Approved':
+                return 'bg-success';
+            case 'Completed':
+                return 'bg-info';
+            case 'Rejected':
+                return 'bg-danger';
+            default:
+                return 'bg-secondary';
+        }
+    }
+</script>
 
 {% endblock %}
