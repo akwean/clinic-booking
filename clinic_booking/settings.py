@@ -67,11 +67,19 @@ WSGI_APPLICATION = 'clinic_booking.wsgi.application'
 ASGI_APPLICATION = 'clinic_booking.asgi.application'
 
 # Replace the DATABASE configuration with SQLite for local development
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+# Update database configuration for Railway
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3',
+        conn_max_age=600
+    )
 }
 
 # Channel layers configuration

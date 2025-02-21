@@ -52,3 +52,10 @@ cover/
 *.pem
 *.key
 secrets.json
+
+*.pyc
+__pycache__
+db.sqlite3
+staticfiles
+.env
+*.log
