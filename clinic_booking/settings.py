@@ -5,11 +5,11 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Comment out Railway-specific settings
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://web-production-8859.up.railway.app',
-# ]
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-8859.up.railway.app',
+]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 SECRET_KEY = '419)wp==g$&+twu1kml$d4awe&3g)*ocs_k2w4w$j+8_uc#)er'
 DEBUG = False
