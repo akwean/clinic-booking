@@ -20,15 +20,23 @@ class AppointmentAdmin(admin.ModelAdmin):
         'year',
         'purpose',
         'status_badge',  # Changed from status_display
+        'types_of_client', 
+        'parent_guardian', 
+        'contact_no', 
+        'home_address', 
         'additional_notes'
     )
     
-    list_filter = ('date', 'course', 'block', 'purpose', 'status', 'year')
-    search_fields = ('user__username', 'first_name', 'last_name', 'additional_notes')
-    readonly_fields = ('user', 'first_name', 'last_name', 'course', 'block', 'year', 
-                      'purpose', 'date', 'time', 'additional_notes')
+    list_filter = ('date', 'course', 'block', 'purpose', 'status', 'year', 'types_of_client')
+    search_fields = ('user__username', 'first_name', 'last_name', 'parent_guardian', 'contact_no', 'home_address', 'additional_notes')
+    readonly_fields = (
+        'user', 'first_name', 'last_name', 'course', 'block', 'year', 'purpose', 
+        'date', 'time', 'types_of_client', 'parent_guardian', 'contact_no', 
+        'home_address', 'additional_notes'
+    )
     actions = ['approve_appointments', 'reject_appointments', 'complete_appointments']
 
+    # Display status with colored badges
     def status_badge(self, obj):
         status_colors = {
             'pending': '#ffc107',
@@ -45,18 +53,22 @@ class AppointmentAdmin(admin.ModelAdmin):
         )
     status_badge.short_description = 'Status'
 
+    # Action to approve appointments
     def approve_appointments(self, request, queryset):
         self.update_status(request, queryset, 'approved')
     approve_appointments.short_description = "Mark selected appointments as approved"
 
+    # Action to reject appointments
     def reject_appointments(self, request, queryset):
         self.update_status(request, queryset, 'rejected')
     reject_appointments.short_description = "Mark selected appointments as rejected"
 
+    # Action to complete appointments
     def complete_appointments(self, request, queryset):
         self.update_status(request, queryset, 'completed')
     complete_appointments.short_description = "Mark selected appointments as completed"
 
+    # Update status and send notifications
     def update_status(self, request, queryset, status):
         channel_layer = get_channel_layer()
         for appointment in queryset:

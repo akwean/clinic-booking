@@ -136,6 +136,39 @@
                 </td>
             `;
             document.getElementById('appointment-table-body').insertBefore(newRow, document.getElementById('appointment-table-body').firstChild);
+
+            // Create and append the modal for the new appointment
+            const newModal = document.createElement('div');
+            newModal.className = 'modal fade';
+            newModal.id = 'appointmentModal' + message.id;
+            newModal.tabIndex = -1;
+            newModal.setAttribute('aria-labelledby', 'modalLabel' + message.id);
+            newModal.setAttribute('aria-hidden', 'true');
+            newModal.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel${message.id}">Appointment Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Date:</strong> ${formattedDate}</p>
+                            <p><strong>Time:</strong> ${message.time}</p>
+                            <p><strong>Purpose:</strong> ${message.purpose}</p>
+                            <p><strong>First Name:</strong> ${message.first_name}</p>
+                            <p><strong>Last Name:</strong> ${message.last_name}</p>
+                            <p><strong>Course:</strong> ${message.course}</p>
+                            <p><strong>Block:</strong> ${message.block}</p>
+                            <p><strong>Year:</strong> ${message.year}</p>
+                            <p><strong>Additional Notes:</strong> ${message.additional_notes}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(newModal);
         }
     };
 

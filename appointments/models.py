@@ -7,6 +7,7 @@ from channels.layers import get_channel_layer
 from django.utils import timezone
 
 class Appointment(models.Model):
+    # Status choices for the appointment
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('approved', 'Approved'),
@@ -14,6 +15,7 @@ class Appointment(models.Model):
         ('cancelled', 'Cancelled'),
     ]
     
+    # Year choices for the appointment
     YEAR_CHOICES = [
         ('1st', 'First Year'),
         ('2nd', 'Second Year'),
@@ -21,16 +23,23 @@ class Appointment(models.Model):
         ('4th', 'Fourth Year'),
     ]
     
+    # Purpose choices for the appointment
     PURPOSE_CHOICES = [
-        ('medical_check', 'Medical Check-up'),
-        ('consultation', 'Consultation'),
-        ('emergency', 'Emergency'),
-        ('follow_up', 'Follow-up Check'),
-        ('medicine', 'Medicine Request'),
-        ('certificate', 'Medical Certificate'),
-        ('others', 'Others'),
+        ('medical', 'Medical (consultation & treatment)'),
+        ('physical_examination', 'Physical examination (e.g., athletic activities, OJT/internship, extra-curricular, scholarship)'),
+        ('dental', 'Dental consultation & treatment'),
+        ('vaccination', 'Vaccination (Flu & Pneumonia) done annually (free)'),
     ]
     
+    # Client type choices for the appointment
+    CLIENT_CHOICES = [
+        ('student', 'Student'),
+        ('personnel', 'Personnel'),
+        ('non_bu_personnel', 'Non-BU Personnel (e.g., part-timers)'),
+        ('others', 'Others (guests)'),
+    ]
+    
+    # Time choices for the appointment
     TIME_CHOICES = [
         ('09:00', '9:00 AM'),
         ('09:30', '9:30 AM'),
@@ -47,6 +56,7 @@ class Appointment(models.Model):
         ('16:00', '4:00 PM'),
     ]
 
+    # Fields for the appointment model
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -54,6 +64,10 @@ class Appointment(models.Model):
     block = models.CharField(max_length=50)
     year = models.CharField(max_length=3, choices=YEAR_CHOICES)
     purpose = models.CharField(max_length=20, choices=PURPOSE_CHOICES)
+    types_of_client = models.CharField(max_length=20, choices=CLIENT_CHOICES, default='student')
+    parent_guardian = models.CharField(max_length=100)
+    contact_no = models.CharField(max_length=15)
+    home_address = models.TextField()
     date = models.DateField()
     time = models.CharField(max_length=5, choices=TIME_CHOICES)
     additional_notes = models.TextField(blank=True, null=True)
@@ -64,6 +78,7 @@ class Appointment(models.Model):
     )
     created_at = models.DateTimeField(default=timezone.now)
 
+    # Save method to handle notifications
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         old_status = None
@@ -93,6 +108,7 @@ class Appointment(models.Model):
                     }
                 )
 
+    # Convert appointment to dictionary
     def to_dict(self):
         return {
             "id": self.id,
@@ -105,7 +121,11 @@ class Appointment(models.Model):
             "course": self.course,
             "block": self.block,
             "year": self.year,
-            "additional_notes": self.additional_notes or "None"
+            "additional_notes": self.additional_notes or "None",
+            "types_of_client": self.get_types_of_client_display(),
+            "parent_guardian": self.parent_guardian,
+            "contact_no": self.contact_no,
+            "home_address": self.home_address,
         }
 
     def __str__(self):
