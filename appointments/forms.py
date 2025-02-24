@@ -17,8 +17,9 @@ class AppointmentForm(forms.ModelForm):
         model = Appointment
         fields = [
             'first_name', 'last_name', 'course', 'block', 'year', 'purpose', 
-            'time', 'date', 'types_of_client', 'parent_guardian', 'contact_no', 
-            'home_address', 'additional_notes'
+            'time', 'date', 'parent_guardian', 'contact_no', 
+            'home_address', 'additional_notes',
+            #'types_of_client', remove for now 
         ]
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'readonly': True}),
@@ -28,7 +29,7 @@ class AppointmentForm(forms.ModelForm):
             'year': forms.Select(attrs={'class': 'form-control'}),
             'purpose': forms.Select(attrs={'class': 'form-control'}),
             'time': forms.Select(attrs={'class': 'form-control'}),
-            'types_of_client': forms.Select(attrs={'class': 'form-control'}),
+            #'types_of_client': forms.Select(attrs={'class': 'form-control'}), Remove for now 
             'parent_guardian': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
             'contact_no': forms.TextInput(attrs={'class': 'form-control', 'required': True}),
             'home_address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'required': True}),

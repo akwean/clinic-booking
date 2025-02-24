@@ -20,18 +20,18 @@ class AppointmentAdmin(admin.ModelAdmin):
         'year',
         'purpose',
         'status_badge',  # Changed from status_display
-        'types_of_client', 
+        #'types_of_client', Remove for now 
         'parent_guardian', 
         'contact_no', 
         'home_address', 
         'additional_notes'
     )
     
-    list_filter = ('date', 'course', 'block', 'purpose', 'status', 'year', 'types_of_client')
+    list_filter = ('date', 'course', 'block', 'purpose', 'status', 'year', ) # 'types_of_client' remove for now 
     search_fields = ('user__username', 'first_name', 'last_name', 'parent_guardian', 'contact_no', 'home_address', 'additional_notes')
     readonly_fields = (
         'user', 'first_name', 'last_name', 'course', 'block', 'year', 'purpose', 
-        'date', 'time', 'types_of_client', 'parent_guardian', 'contact_no', 
+        'date', 'time',  'parent_guardian', 'contact_no',  # 'types_of_client', Remove for now 
         'home_address', 'additional_notes'
     )
     actions = ['approve_appointments', 'reject_appointments', 'complete_appointments']

@@ -31,13 +31,13 @@ class Appointment(models.Model):
         ('vaccination', 'Vaccination (Flu & Pneumonia) done annually (free)'),
     ]
     
-    # Client type choices for the appointment
-    CLIENT_CHOICES = [
+    # Client type choices for the appointment Remove for now
+    '''CLIENT_CHOICES = [
         ('student', 'Student'),
         ('personnel', 'Personnel'),
         ('non_bu_personnel', 'Non-BU Personnel (e.g., part-timers)'),
         ('others', 'Others (guests)'),
-    ]
+    ]'''
     
     # Time choices for the appointment
     TIME_CHOICES = [
@@ -64,7 +64,7 @@ class Appointment(models.Model):
     block = models.CharField(max_length=50)
     year = models.CharField(max_length=3, choices=YEAR_CHOICES)
     purpose = models.CharField(max_length=20, choices=PURPOSE_CHOICES)
-    types_of_client = models.CharField(max_length=20, choices=CLIENT_CHOICES, default='student')
+    #types_of_client = models.CharField(max_length=20, choices=CLIENT_CHOICES, default='student') Remove for now
     parent_guardian = models.CharField(max_length=100)
     contact_no = models.CharField(max_length=15)
     home_address = models.TextField()
@@ -122,7 +122,7 @@ class Appointment(models.Model):
             "block": self.block,
             "year": self.year,
             "additional_notes": self.additional_notes or "None",
-            "types_of_client": self.get_types_of_client_display(),
+            #"types_of_client": self.get_types_of_client_display(),
             "parent_guardian": self.parent_guardian,
             "contact_no": self.contact_no,
             "home_address": self.home_address,
