@@ -64,10 +64,12 @@
 <!-- Confirmation Modal -->
 <div id="confirmationModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeConfirmationModal()">&times;</span>
         <h2>Confirm Your Appointment</h2>
-        <div id="confirmationDetails"></div>
-        <button type="button" class="btn btn-success" onclick="confirmAppointment()">Confirm</button>
+        <div id="confirmationDetails"></div> 
+        <div class="modal-buttons">  <!-- Cancel button -->
+            <button type="button" class="btn btn-secondary" onclick="closeConfirmationModal()">Cancel</button>
+            <button type="button" class="btn btn-success" onclick="confirmAppointment()">Confirm</button>
+        </div>
     </div>
 </div>
 
