@@ -20,7 +20,7 @@
         <img src="{% static 'landing/images/BUP2.jpeg' %}" alt="Large Image">
     </div>
     <div class="right-rectangles">
-        <a href="#" class="small-rectangle">
+        <a href="{% url 'ai:index' %}" class="small-rectangle">
             <img src="{% static 'landing/images/ai-icon.png' %}" alt="AI Icon"> Artificial Intelligence
         </a>
         <a href="{% url 'appointment_history' %}" class="small-rectangle">

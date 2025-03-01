@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'users',
     'appointments',
     'channels',
+    'ai',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'landing/templates'),
             os.path.join(BASE_DIR, 'appointments/templates'),
             os.path.join(BASE_DIR, 'users/templates'),
+            os.path.join(BASE_DIR, 'ai/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -109,6 +111,8 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'landing/static'),
     os.path.join(BASE_DIR, 'appointments/static'),
+    os.path.join(BASE_DIR, 'ai/static'),
+
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

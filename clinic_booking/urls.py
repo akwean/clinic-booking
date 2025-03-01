@@ -7,4 +7,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', landing_views.landing_page, name='landing_page'),  # Root URL for landing page
     path('appointments/', include('appointments.urls')),
+    path('ai/', include('ai.urls')),
 ]

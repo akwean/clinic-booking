@@ -1,0 +1,68 @@
+{% extends 'ai/layout.html' %}
+{% load static %}
+
+{% block navbar %}
+{% include "landing/partials/navbar.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="hero-section">
+    <div class="container chat-container">
+      <h3 class="text-center">AI Chat Assistant</h3>
+      <div class="chat-box" id="chatBox">
+        <p class="typing-effect" id="typingText"></p>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type a message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="triangle"></div>
+
+  <div class="content-section">
+    <h2>Welcome to BUPC Clinic Services</h2>
+    <p>
+      We provide streamlined online medical reservations and support for all your
+      healthcare needs.
+    </p>
+  </div>
+
+  <div class="triangle"></div>
+
+  <div class="content-section">
+    <h3>How to Stay Healthy as a Student</h3>
+    <ul style="text-align: left; max-width: 800px; margin: auto;">
+      <li>
+        <strong>Balanced Diet:</strong> Eat regular meals, include all food groups,
+        stay hydrated, and choose healthy snacks.
+      </li>
+      <li>
+        <strong>Regular Exercise:</strong> Aim for at least 30 minutes of activity
+        daily, including simple exercises and stretching.
+      </li>
+      <li>
+        <strong>Sleep Hygiene:</strong> Get 7-9 hours of sleep, follow a consistent
+        sleep schedule, and avoid late-night cramming.
+      </li>
+      <li>
+        <strong>Mental Health Care:</strong> Manage stress with mindfulness, stay
+        connected with others, and seek help when needed.
+      </li>
+      <li>
+        <strong>Time Management:</strong> Organize tasks, use study techniques like
+        Pomodoro, and avoid procrastination.
+      </li>
+      <li>
+        <strong>Healthy Habits:</strong> Limit screen time, practice good hygiene,
+        and avoid harmful substances.
+      </li>
+      <li>
+        <strong>Health Checkups:</strong> Keep up with routine medical exams and be
+        aware of available health services.
+      </li>
+    </ul>
+  </div>
+  {% endblock %}
