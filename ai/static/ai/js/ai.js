@@ -29,7 +29,7 @@ const text = "Hello there I am BUP Artificial Intelligence! What is Your Concern
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": "Bearer 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",
             "Content-Type": "application/json"
           },
           body: JSON.stringify({ "model": "google/gemini-exp-1206:free", "messages": [{ "role": "user", "content": userInput }] })
